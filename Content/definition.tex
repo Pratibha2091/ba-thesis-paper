@@ -1,0 +1,66 @@
+% !TEX root = ../main.tex
+
+\chapter{Problem definition}
+\section{introduction}
+
+This problem is variation of lot sizing problem in stochastic setting. Variation is as follows. We have stochastic prediction for raw material supply cost $\mathbf{s}$ at future time moment $t$. The \emph{factory} converts all bought raw materials at time $t$ and stores them into a warehouse. Number of discrete time moments is denoted by $n$.
+
+One time moment storage costs fixed amount $h$, that is the holding cost.
+
+Likewise demand for the product is equally stochastic, denoted as $\mathbf{d}$. In case there's no products in storage to satisfy demand we pay backlogging cost denoted as $b$.
+
+Our aim is to optimize our procurement policy by variating $\mathbf{x}$, that is product amount we buy at time moment $t$. However we are constrained by the maximum raw materials we can buy each day by $\mathbf{x_{\text{max}}}$.
+
+\section{Formal problem definition}
+\label{sec:Formal problem definition}
+
+\subsection{Definitions}
+\label{sub:Definitions}
+
+\begin{align*}
+    \mathbf{s} &= \begin{bmatrix}
+        S_1, S_2, \dotsc, S_n
+    \end{bmatrix}^\intercal && \text{Supply cost random vector} \\
+    \mathbf{x} &= \begin{bmatrix}
+        x_1, x_2, \dotsc, x_n
+    \end{bmatrix}^\intercal && \text{Procurement quantity vector} \\
+    X_i &= \sum_{t\le i}{x_t} && \text{Cumulative procurement quantity sum} \\
+    \mathbf{y} &= \begin{bmatrix}
+        Y_1, Y_2, \dotsc, Y_n
+    \end{bmatrix}^\intercal && \text{Demand quantity random vector} \\
+    \mathbf{d} &= \begin{bmatrix}
+        d_1, d_2, \dotsc, d_n
+    \end{bmatrix} && \text{demand vector} \\
+    D_i &= \sum_{t\le i}{d_t} && \text{Cumulative demand vector} \\
+    b & && \text{backlogging cost} \\
+    h & && \text{holding cost}
+\end{align*}
+
+\subsection{Variables}
+\label{sub:Variables}
+$\mathbf{x}$ is our decision variable, as described previously.
+\subsection{Constraints}
+\label{sub:Constraints}
+\begin{align*}
+    \mathbf{x} &\in \mathbb{N}_0^n \\
+    \mathbf{x} &\le \mathbf{x_{\text{max}}}\\
+    D_i &\ge 0 \; \forall t
+\end{align*}
+
+\section{Objective function}
+
+First let's define auxiliary function $c(t)$ which determines holding or backlogging cost at $t$:
+\[
+    c(t) = \begin{cases}
+        h \left( X_i - D_i \right) & X_i \ge D_i \\
+        b \left( D_i - X_i \right) & X_i < D_i
+    \end{cases}
+\]
+
+Therefore our minimizing objective function is:
+
+\[
+    \min f(\mathbf{x}) = \mathbf{s}^\intercal\mathbf{x} + \sum{c(t)}
+\]
+
+Because the function is stochastic our aim is to minimize $ \text{E} \left[ f(\mathbf{x}) \right]$.
