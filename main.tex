@@ -8,45 +8,20 @@
 ]{scrbook}
 
 \usepackage[linedheaders,parts,pdfspacing]{classicthesis}
-\usepackage{amsmath,amsfonts,amssymb, amsthm}
+\usepackage{mathtools, amsmath,amsfonts,amssymb, amsthm}
 \usepackage{acronym}
 \usepackage{minted}
 \usepackage{geometry}
 
-\title{BA thesis title}
+\title{A decision support system for forecasting and optimal procurement}
 \author{Neven Miculnic}
 
 \begin{document}
 
 \maketitle
 
-\input{Content/definition.tex}
-
-
-\section{Solution}
-Under assumption $\mathbf{s}$, $c$ and $\mathbf{d}$ are already defined (in here are simply defined for example
-
-This solution has running time of $\Theta(n)$
-
-\section{Variation}
-If we add additional constraint:
-\[
-    \forall t: h_t \le H
-\]
-
-it's possible to solve this probelm in $\mathcal{O}(nH^2)$ time using dynamic programming. Our state in dynamic programing $\mathrm{dp}_{t,i}$ is minumal cost where at time $t$ we have $i$ units stored in storage, that is $h_t = i$.
-
-Transition is:
-
-\[
-    \mathrm{dp}_{t,i} = \min_{j=0}^{i}{
-        cj
-        + \mathrm{dp}_{t-1, j}
-        + s_t \left( d_t + i - j \right) }
-\]
-
-For finding optimal solution we're interested in optimal $j$ choices in recursive tree for $\mathrm{dp}_{n, 0}$ that is at time $t$ we have 0 product surplus stored in storage.
-
-Likewise there exeist minimum $H$ such that $\forall h > H$ optimal solution doesn't change. Using expoentially increasing $H$ it's possible to find optimal $H$ in $\mathcal{O}(nH^2\log H)$ time.
+\include{FrontBackMatter/abstract}
+\include{Content/definition}
+\include{Content/solution}
 
 \end{document}

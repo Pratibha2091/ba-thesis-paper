@@ -17,6 +17,8 @@ Our aim is to optimize our procurement policy by variating $\mathbf{x}$, that is
 \subsection{Definitions}
 \label{sub:Definitions}
 
+Every input value is known beforehand, and it's assumed for random variables their distributions are known.
+
 \begin{align*}
     \mathbf{s} &= \begin{bmatrix}
         S_1, S_2, \dotsc, S_n
@@ -25,13 +27,10 @@ Our aim is to optimize our procurement policy by variating $\mathbf{x}$, that is
         x_1, x_2, \dotsc, x_n
     \end{bmatrix}^\intercal && \text{Procurement quantity vector} \\
     X_i &= \sum_{t\le i}{x_t} && \text{Cumulative procurement quantity sum} \\
-    \mathbf{y} &= \begin{bmatrix}
-        Y_1, Y_2, \dotsc, Y_n
-    \end{bmatrix}^\intercal && \text{Demand quantity random vector} \\
     \mathbf{d} &= \begin{bmatrix}
-        d_1, d_2, \dotsc, d_n
-    \end{bmatrix} && \text{demand vector} \\
-    D_i &= \sum_{t\le i}{d_t} && \text{Cumulative demand vector} \\
+        Y_1, Y_2, \dotsc, Y_n
+    \end{bmatrix} && \text{Demand random vector, $Y_t$ is a random variable} \\
+    D_i &= \sum_{t\le i}{d_t} && \text{Cumulative demand random variable} \\
     b & && \text{backlogging cost} \\
     h & && \text{holding cost}
 \end{align*}
@@ -50,17 +49,20 @@ $\mathbf{x}$ is our decision variable, as described previously.
 \section{Objective function}
 
 First let's define auxiliary function $c(t)$ which determines holding or backlogging cost at $t$:
-\[
+
+\begin{equation}
     c(t) = \begin{cases}
         h \left( X_i - D_i \right) & X_i \ge D_i \\
         b \left( D_i - X_i \right) & X_i < D_i
     \end{cases}
-\]
+    \label{eq:cost-t}
+\end{equation}
 
 Therefore our minimizing objective function is:
 
-\[
+\begin{equation}
     \min f(\mathbf{x}) = \mathbf{s}^\intercal\mathbf{x} + \sum{c(t)}
-\]
+    \label{eq:cost-f}
+\end{equation}
 
-Because the function is stochastic our aim is to minimize $ \text{E} \left[ f(\mathbf{x}) \right]$.
+Because the function is stochastic our aim is to minimize $ \operatorname{E} \left[ f(\mathbf{x}) \right]$.

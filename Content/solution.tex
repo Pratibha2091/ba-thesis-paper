@@ -1,0 +1,38 @@
+% !TEX root = ../main.tex
+
+\chapter{Deeper analysis}
+\label{chap:Deeper analysis}
+
+First we are going to analise problem deeply without presuming any independence or probability distribution on random variables. Later in subsequent chapters we are going to focus more on where demand at time $t$ has independent Gaussian distribution and mean.
+
+\section{Cost function}
+\begin{align*}
+\shortintertext{The minimizing function is:}
+    & \operatorname{E} \left[
+        \mathbf{s}^\intercal\mathbf{x} + \sum{c(t)}
+    \right] \\
+\shortintertext{Due to linerality of expectation and $x$ being variable it's equal to:}
+    & \mathbf{x} \operatorname{E} \left[
+        \mathbf{s}^\intercal
+        \right] +
+        \operatorname{E} \left[ \sum{c(t)} \right] \\
+\end{align*}
+
+Therefore only needed modeling information for supply cost is its expectation $\operatorname{E} \left[ \mathbf{s} \right]$. The other part is more trickier since $D_i$ and $D_j$ aren't usually independent.
+
+\section{Handling demand cost non-linearity}
+\label{sec:Handling demand cost non-linearity}
+
+As we can see in equation~\ref{eq:cost-t} we have non-linearity depending whether we're satifying all demand or are we backlogging demand at time $t$. Therefore here are two possible solutions for minimizing objective function~\ref{eq:cost-f}.
+
+\subsubsection{Simulation}
+\label{subs:Simulation}
+
+We generate multiple scenarios for demand vector, $d$ according to probability distribution. For small $n$ and relatively small number of outcomes in each random variable we can exhaustedly model each scenario, scale it appropriately and feed to MIP solver\footnote{There's a trick on using binary variable for discontinuity in cost function~\ref{eq:cost-t}}
+
+\subsubsection{Safety net approach}
+\label{subs:Safety net approach}
+
+Alternatively, we can artificially add new constraints and avoiding backlogging with arbitrary probably. This model assumes backlogging cost are significantly greater than storage cost, that is backlogging penalty is severe.
+
+Thus we chose values $p_t$ which tell us the probabilit 
