@@ -35,4 +35,26 @@ We generate multiple scenarios for demand vector, $d$ according to probability d
 
 Alternatively, we can artificially add new constraints and avoiding backlogging with arbitrary probably. This model assumes backlogging cost are significantly greater than storage cost, that is backlogging penalty is severe.
 
-Thus we chose values $p_t$ which tell us the probabilit 
+Thus we chose values arbitrary realizations of random variables $D_t$ and add additional constraints of the form:
+
+\begin{equation}
+    \label{eq:new-cost-t}
+    X_t \ge D_i \; \forall t
+\end{equation}
+
+which reduces cost function~\ref{eq:cost-t} to:
+\[
+c(t) = h \left( X_i - D_i \right) \; X_i \ge D_i
+\]
+
+and enables are faster solving approaches. Given parameters $D_i$ chosen and their underlying distribution we derive non-increasing function $p(t)$ which represent probability of not breaking newly introduced constraints~\ref{eq:new-cost-t}
+
+\subsubsection{Min-cost max flow with uncertaintiy}
+\label{subs:Min-cost max flow with uncertaintiy}
+
+Since deterministic case can be modeled with min-cost max flow, we can investigate further in this directi
+
+\subsubsection{Stochastic Dynamic Programmnig}
+\label{subs:SDP}
+
+TODO.. maybe, I've got recommendation by a friend, need to read some papers.
