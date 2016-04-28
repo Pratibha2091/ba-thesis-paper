@@ -17,20 +17,30 @@ Our aim is to optimize our procurement policy by variating $\mathbf{x}$, that is
 \subsection{Definitions}
 \label{sub:Definitions}
 
-Every input value is known beforehand, and it's assumed for random variables their distributions are known.
+Every input value is known beforehand, and it's assumed for random variables their distributions are known. Following is deterministic problem variant, and in subsequent chapters randomness and uncertainty is embedded into problem. Font convention:
+
+\begin{align*}
+x, y, z && \text{variables and constants} \\
+\mathbf{x, y, z} && \text{vector variables and constants} \\
+X, Y, Z && \text{random variables} \\
+\mathbf{X, Y, Z} && \text{random vectors} \\
+\mathcal{X, Y, Z} && \text{probability distributions} \\
+\mathbf{A, B, C} && \text{matrices, by context differentiated from random vectors}
+\end{align*}
+
+Now following is formal problem description for deterministic variant:
 
 \begin{align*}
     \mathbf{s} &= \begin{bmatrix}
-        S_1, S_2, \dotsc, S_n
-    \end{bmatrix}^\intercal && \text{Supply cost random vector} \\
+        s_1, s_2, \dotsc, s_n
+    \end{bmatrix}^\intercal && \text{Supply cost vector} \\
     \mathbf{x} &= \begin{bmatrix}
         x_1, x_2, \dotsc, x_n
     \end{bmatrix}^\intercal && \text{Procurement quantity vector} \\
-    X_i &= \sum_{t\le i}{x_t} && \text{Cumulative procurement quantity sum} \\
+    \mathbf{x_{\max}}  & && \text{Procurement quantity limits vector} \\
     \mathbf{d} &= \begin{bmatrix}
-        Y_1, Y_2, \dotsc, Y_n
-    \end{bmatrix} && \text{Demand random vector, $Y_t$ is a random variable} \\
-    D_i &= \sum_{t\le i}{d_t} && \text{Cumulative demand random variable} \\
+        d_1, d_2, \dotsc, d_n
+    \end{bmatrix}^\intercal && \text{Demand random vector, $Y_t$ is a random variable} \\
     b & && \text{backlogging cost} \\
     h & && \text{holding cost}
 \end{align*}
@@ -43,26 +53,38 @@ $\mathbf{x}$ is our decision variable, as described previously.
 \begin{align*}
     \mathbf{x} &\in \mathbb{N}_0^n \\
     \mathbf{x} &\le \mathbf{x_{\text{max}}}\\
-    D_i &\ge 0 \; \forall t
+    \sum{x} &= \sum{d} \\
 \end{align*}
 
 \section{Objective function}
 
-First let's define auxiliary function $c(t)$ which determines holding or backlogging cost at $t$:
+First let's define auxilary matrix:
 
-\begin{equation}
-    c(t) = \begin{cases}
-        h \left( X_i - D_i \right) & X_i \ge D_i \\
-        b \left( D_i - X_i \right) & X_i < D_i
+\begin{definition}{$\mathbf{C}$}
+matrix defines cost for satisfying demand with specific raw supply material purchase date. It's element $c_{ij}$ equals:
+
+\begin{equation*}
+    c_{ij} = \begin{cases}
+        b \left( i - j \right) + s_i & j < i \\
+        h \left( j - i \right) + s_i & j \ge i
     \end{cases}
-    \label{eq:cost-t}
-\end{equation}
+\end{equation*}
+That is using purchaces raw materials at $i$ to satisfy demand at time moment $j$ incurs cost $c_{ij}$.
+\end{definition}
 
-Therefore our minimizing objective function is:
 
-\begin{equation}
-    \min f(\mathbf{x}) = \mathbf{s}^\intercal\mathbf{x} + \sum{c(t)}
-    \label{eq:cost-f}
-\end{equation}
+\begin{definition}{$c(t)$}
+defines total speeding we pay at time $t$.
+    \begin{equation}
+        \label{eq:cost-t}
+        c(t) = \sum_i{x_ic_{it}}
+    \end{equation}
+\end{definition}
 
-Because the function is stochastic our aim is to minimize $ \operatorname{E} \left[ f(\mathbf{x}) \right]$.
+\begin{definition}{$f(\mathbf{x})$}
+    is objective function for this problem. Our aim is to minimize it.
+    \begin{equation}
+        f(\mathbf{x}) =  \sum_t{c(t)}
+        \label{eq:cost-f}
+    \end{equation}
+\end{definition}
