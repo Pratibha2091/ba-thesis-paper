@@ -1,0 +1,33 @@
+% !TEX root = ../main.tex
+
+\chapter{Deterministic approach}
+\label{chap:Deterministic approach}
+
+\section{Solution}
+\label{sec:Solution}
+
+Problem as defined in~\ref{chap:prob-def} can be reduced to transportation problem \autocite{or-textbook} since we have cost matrix $\mathbf{C}$ defining ``transportation'' costs associated with each possible assignment option. For successful reduction we only need adding dummy source or destination as described in \autocite{or-textbook}
+
+\section{Variants}
+\label{sec:Variants}
+
+Problem as defined previously could seem rather simplistic and not allowing useful extensions users might want, such as current storage amount and similar. In following few subsections most useful extensions are described.
+
+\subsubsection{Starting storage capacity}
+in case we have already certain number of product in stock we can easily embed that knowledge into model by adding new supplier/node as new decision variable $x_0$. It's maximum, $x_{\max0}$ is equal to starting storage capacity, and $c_{0j} = \left( j - 1 \right) h$
+
+\subsubsection{Ending storage requirement}
+\label{subs:Ending storage requirement}
+For example we'd like to have some extra product in stock by the end of analysis, and it's quite easy to accommodate such requirement. Simple add to $d_n$ ending storage requirement, thus obtaining new $d_n$.
+
+\subsubsection{Allowing future backlogging}
+\label{subs:Allowing future backlogging}
+In model as described, time stops at time moment $n$, however, in realistic scenario we're looking at only short time snapshot of ongoing process. To allow such future purchases to backlog at previous times, we can extend the model with $m$ future moments:
+\begin{align*}
+    d_{n+i} &= 0  && \\
+    x_{\max{n+i}} &= y_i  && \text{allowable backlogging from future supply purchases}\\
+    \mathbf{C}  & && \text{as previously defined, simply extended} \\
+    \mathbf{s} &&& \text{extended with future costs}
+\end{align*}
+
+for $i$ in $1, 2, \dotsc, m$
