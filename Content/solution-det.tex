@@ -3,24 +3,65 @@
 \chapter{Deterministic approach}
 \label{chap:Deterministic approach}
 
-\section{Solution}
-\label{sec:Solution}
+\section{Modelling approaches}
 
-Problem as defined in~\ref{chap:prob-def} can be reduced to transportation problem \autocite{or-textbook} since we have cost matrix $\mathbf{C}$ defining ``transportation'' costs associated with each possible assignment option. For successful reduction we only need adding dummy source or destination as described in \autocite{or-textbook}
+Problem as defined in~\ref{chap:prob-def} can be reduced to two well known problems: transportation and min-cost max flow problem. In both cases knowning $\mathbf{x}$ implies all needed network parameters given $b, h > 0$.
+
+\subsection{Transportation problem reduction}
+\label{subs:Transportation problem reduction}
+
+Transportation problem \autocite{or-textbook} is easy reduction since we have cost matrix $\mathbf{C}$ defining ``transportation'' costs associated with each possible assignment option. For successful reduction we only need adding dummy source or destination as described in \autocite{or-textbook}
+
+%% min cost heuristic; fenwick tree\heap and other weird trickery to
+%% compute it in O(n log n) time. It's overkill for this problem though
+
+\subsection{Min cost max flow reduction}
+\label{sub:Min cost max flow reduction}
+
+We can exploit additional problem structure to achieve superior performance and modeling capabilities. In figure~\ref{fig:mcmf-model} we see network architecture.
+
+\begin{figure}[h]
+    \label{fig:mcmf-model}
+    \centering
+    \input{Figures/mcmf-model.tex}
+    \caption{min cost max flot model. Arcs are labeled (capacity, cost)}
+\end{figure}
+
+\subsection{Feasable solution heuristic}
+\label{subs:Feasable solution heuristic}
+Since this problem has special structure, not found in original transportation problem, this heuristic enables us to construct better initial feasible solution. We can solve relaxed problem where backlogging is forbidden in $\mathcal{O}(n \log{} n)$ using greedy approach:
+
+\begin{verbatim}
+    For each $d_i$ in order from 1 to $n$ do:
+        While $d_i$ not satisfied:
+            Find cheapest $x_k$ positive supply node and satisfy as much as possible
+\end{verbatim}
+
+By the end of this procedure we're going to satisfy all demand in optimal way in case it's possible to to do. Naive implementation results in $\mathcal{O}(n^2)$ runtime, however we can use priority queue, with heap backing implementation for $\mathcal{O}(n\log{}n)$ runtime.
+
+This priority queue is sorted by costs and since all costs raise by constant amount between $d_i$ and $d_{i+1}$ we can keep it updated in $\mathcal{O}(1)$.
 
 \section{Variants}
 \label{sec:Variants}
 
 Problem as defined previously could seem rather simplistic and not allowing useful extensions users might want, such as current storage amount and similar. In following few subsections most useful extensions are described.
 
-\subsubsection{Starting storage capacity}
+\subsection{Starting storage capacity}
 in case we have already certain number of product in stock we can easily embed that knowledge into model by adding new supplier/node as new decision variable $x_0$. It's maximum, $x_{\max0}$ is equal to starting storage capacity, and $c_{0j} = \left( j - 1 \right) h$
 
-\subsubsection{Ending storage requirement}
+\subsection{Ending storage requirement}
 \label{subs:Ending storage requirement}
 For example we'd like to have some extra product in stock by the end of analysis, and it's quite easy to accommodate such requirement. Simple add to $d_n$ ending storage requirement, thus obtaining new $d_n$.
 
-\subsubsection{Allowing future backlogging}
+\subsection{Time Shifted ordering}
+\label{subs:Time Shifted ordering}
+If we order raw materials at $t$ they might arrive at later time moment $t+\Delta_t$. This can easily be modeled via variable substitution. For different $\Delta_t$ depending on the $t$ or multiple suppliers see subsection~\ref{subs:Multiple raw material suppliers}
+
+\subsection{Multiple raw material suppliers}
+\label{subs:Multiple raw material suppliers}
+Adding new raw material suppliers with different costs cannot be done as per original model specification, however reduction to presented problems is straightforward.
+
+\subsection{Allowing future backlogging}
 \label{subs:Allowing future backlogging}
 In model as described, time stops at time moment $n$, however, in realistic scenario we're looking at only short time snapshot of ongoing process. To allow such future purchases to backlog at previous times, we can extend the model with $m$ future moments:
 \begin{align*}
@@ -29,5 +70,4 @@ In model as described, time stops at time moment $n$, however, in realistic scen
     \mathbf{C}  & && \text{as previously defined, simply extended} \\
     \mathbf{s} &&& \text{extended with future costs}
 \end{align*}
-
 for $i$ in $1, 2, \dotsc, m$

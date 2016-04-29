@@ -1,0 +1,40 @@
+digraph G {
+	rankdir=LR
+	root=start
+
+	splines=true # use splines for edges, if needed to avoid overlap
+	overlap=scale # (try to) stretch everything if edges overlap
+	edge [decorate=true]
+
+	node [shape=circle, texmode="math"];
+	edge [texmode="math"];
+
+	subgraph cluster_time {
+		label="Time"
+		esep=1
+		edge [constraint=false]
+		1 -> 2[label="(\\infty, h)"];
+		2 -> m[label="(\\infty, h)"];
+		m -> n[label="(\\infty, h)"];
+
+		n -> m[label="(\\infty, b)"];
+		m -> 2[label="(\\infty, b)"];
+		2 -> 1[label="(\\infty, b)"];
+		m[label="...", color="#12345600"];
+
+		edge[constraint=true];
+		1->2->m->n[style=invis];
+	}
+
+	{rank=same; 1;2;m;n;}
+
+	node[texmode="raw"];
+
+	source -> 1[label="(x_{\\max 1}, s_1)"];
+	source -> 2[label="(x_{\\max 2}, s_2)"];
+	source -> n[label="(x_{\\max n}, s_n)"];
+
+	1 -> sink[label="(d_1, 0)"];
+	2 -> sink[label="(d_2, 0)"];
+	n -> sink[label="(d_n, 0)"];
+}
