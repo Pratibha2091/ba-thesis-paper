@@ -61,24 +61,16 @@ $\mathbf{x}$ is our decision variable, as described previously.
 
 \section{Objective function}
 
-\begin{definition}{$\mathbf{C}$}
-matrix defines cost for satisfying demand with specific raw supply material purchase date. It's element $c_{ij}$ equals:
-
-\begin{equation*}
-    c_{ij} = \begin{cases}
-        b \left( i - j \right) + s_i & j < i \\
-        h \left( j - i \right) + s_i & j \ge i
-    \end{cases}
-\end{equation*}
-That is using purchaces raw materials at $i$ to satisfy demand at time moment $j$ incurs cost $c_{ij}$.
-\end{definition}
-
-
 \begin{definition}{$c(t)$}
 defines total speeding we pay at time $t$.
     \begin{equation}
         \label{eq:cost-t}
-        c(t) = \sum_i{x_ic_{it}}
+        c(t) = + s_t x_t + \begin{cases}
+        h \left( \sum_{i=1}^t{x_i} - \sum_{i=1}^t{d_i} \right)  &
+            \sum_{i=1}^t{x_i} > \sum_{i=1}^t{d_i}  \\
+        b \left(\sum_{i=1}^t{d_i} - \sum_{i=1}^t{x_i} \right) &
+            \sum_{i=1}^t{x_i} < \sum_{i=1}^t{d_i} \\
+        \end{cases}
     \end{equation}
 \end{definition}
 

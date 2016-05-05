@@ -10,6 +10,30 @@ Problem as defined in~\ref{chap:prob-def} can be reduced to two well known probl
 \subsection{Transportation problem reduction}
 \label{subs:Transportation problem reduction}
 
+First we consider auxiliary variables $x'_{ij}$ which represent amount assigned from supply at time $i$ to demand at time $t$. This entails additional constraint:
+\[x_i = \sum_j{x'_{ij}}\]
+
+\begin{definition}{$\mathbf{C}$}
+matrix defines cost for satisfying demand with specific raw supply material purchase date. It's element $c_{ij}$ equals:
+
+\begin{equation*}
+    c_{ij} = \begin{cases}
+        b \left( i - j \right) + s_i & j < i \\
+        h \left( j - i \right) + s_i & j \ge i
+    \end{cases}
+\end{equation*}
+That is using purchaces raw materials at $i$ to satisfy demand at time moment $j$ incurs cost $c_{ij}$.
+\end{definition}
+
+Finally our original cost function~\ref{eq:cost-t} then equals to:
+
+\begin{equation}
+    \label{eq:cost-trans-t}
+    c(t) = \sum_i{x'_{it}c_{it}}
+\end{equation}
+
+Under those modeling approaches optimal $x'_{ij}$ yields optimal $\mathbf{x}$ 
+
 Transportation problem \autocite{or-textbook} is easy reduction since we have cost matrix $\mathbf{C}$ defining ``transportation'' costs associated with each possible assignment option. For successful reduction we only need adding dummy source or destination as described in \autocite{or-textbook}
 
 %% min cost heuristic; fenwick tree\heap and other weird trickery to
