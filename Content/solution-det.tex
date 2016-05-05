@@ -5,7 +5,7 @@
 
 \section{Modelling approaches}
 
-Problem as defined in~\ref{chap:prob-def} can be reduced to two well known problems: transportation and min-cost max flow problem. In both cases knowning $\mathbf{x}$ implies all needed network parameters given $b, h > 0$.
+Problem as defined in~\ref{chap:prob-def} can be reduced to two well known problems: transportation and min-cost max flow problem. In both cases knowning $\mathbf{x}$ implies all needed network parameters given $b, h \ge 0$.
 
 \subsection{Transportation problem reduction}
 \label{subs:Transportation problem reduction}
@@ -22,7 +22,7 @@ matrix defines cost for satisfying demand with specific raw supply material purc
         h \left( j - i \right) + s_i & j \ge i
     \end{cases}
 \end{equation*}
-That is using purchaces raw materials at $i$ to satisfy demand at time moment $j$ incurs cost $c_{ij}$.
+That is using purchases raw materials at $i$ to satisfy demand at time moment $j$ incurs cost $c_{ij}$.
 \end{definition}
 
 Finally our original cost function~\ref{eq:cost-t} then equals to:
@@ -48,11 +48,11 @@ We can exploit additional problem structure to achieve superior performance and 
     \label{fig:mcmf-model}
     \centering
     \input{Figures/mcmf-model.tex}
-    \caption{min cost max flot model. Arcs are labeled (capacity, cost)}
+    \caption{min cost max flow model. Arcs are labeled (capacity, cost)}
 \end{figure}
 
-\subsection{Feasable solution heuristic}
-\label{subs:Feasable solution heuristic}
+\subsection{Feasible solution heuristic}
+\label{subs:Feasible solution heuristic}
 Since this problem has special structure, not found in original transportation problem, this heuristic enables us to construct better initial feasible solution. We can solve relaxed problem where backlogging is forbidden in $\mathcal{O}(n \log{} n)$ using greedy approach:
 
 \begin{verbatim}
