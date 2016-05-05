@@ -32,7 +32,7 @@ Finally our original cost function~\ref{eq:cost-t} then equals to:
     c(t) = \sum_i{x'_{it}c_{it}}
 \end{equation}
 
-Under those modeling approaches optimal $x'_{ij}$ yields optimal $\mathbf{x}$ 
+Under those modeling approaches optimal $x'_{ij}$ yields optimal $\mathbf{x}$
 
 Transportation problem \autocite{or-textbook} is easy reduction since we have cost matrix $\mathbf{C}$ defining ``transportation'' costs associated with each possible assignment option. For successful reduction we only need adding dummy source or destination as described in \autocite{or-textbook}
 
@@ -58,7 +58,8 @@ Since this problem has special structure, not found in original transportation p
 \begin{verbatim}
     For each $d_i$ in order from 1 to $n$ do:
         While $d_i$ not satisfied:
-            Find cheapest $x_k$ positive supply node and satisfy as much as possible
+            Find cheapest $x_k$ positive supply node and
+            satisfy as much as possible
 \end{verbatim}
 
 By the end of this procedure we're going to satisfy all demand in optimal way in case it's possible to to do. Naive implementation results in $\mathcal{O}(n^2)$ runtime, however we can use priority queue, with heap backing implementation for $\mathcal{O}(n\log{}n)$ runtime.
