@@ -4,11 +4,11 @@
 \label{chap:prob-def}
 \section{introduction}
 
-This problem is variation of lot sizing problem in stochastic setting. Variation is as follows. We have stochastic prediction for raw material supply cost $\mathbf{s}$ at future time moment $t$. The \emph{factory} converts all bought raw materials at time $t$ and stores them into a warehouse. Number of discrete time moments is denoted by $n$.
+This problem is variation of lot sizing problem in stochastic setting. Variation is as follows. Firstly we describe deterministic variant before introducing stochasticity and uncertainty. We have predictions for raw material supply cost $\mathbf{s}$ at future time moment $t$. The \emph{factory} converts all bought raw materials at time $t$ and stores them into a warehouse. Number of discrete time moments is denoted by $n$.
 
 One time moment storage costs fixed amount $h$, that is the holding cost.
 
-Likewise demand for the product is equally stochastic, denoted as $\mathbf{d}$. In case there's no products in storage to satisfy demand we pay backlogging cost denoted as $b$.
+Each $t$ we have certain demand we need satifying, denoted as $\mathbf{d}$. In case there's no products in storage to satisfy demand we pay backlogging cost denoted as $b$ per day, for late orders.
 
 Our aim is to optimize our procurement policy by variating $\mathbf{x}$, that is product amount we buy at time moment $t$. However we are constrained by the maximum raw materials we can buy each day by $\mathbf{x_{\text{max}}}$.
 
@@ -67,7 +67,7 @@ defines total speeding we pay at time $t$.
         \label{eq:cost-t}
         c(t) = + s_t x_t + \begin{cases}
         h \left( \sum_{i=1}^t{x_i} - \sum_{i=1}^t{d_i} \right)  &
-            \sum_{i=1}^t{x_i} > \sum_{i=1}^t{d_i}  \\
+            \sum_{i=1}^t{x_i} \ge \sum_{i=1}^t{d_i}  \\
         b \left(\sum_{i=1}^t{d_i} - \sum_{i=1}^t{x_i} \right) &
             \sum_{i=1}^t{x_i} < \sum_{i=1}^t{d_i} \\
         \end{cases}
