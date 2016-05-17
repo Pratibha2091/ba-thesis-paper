@@ -5,13 +5,12 @@
 
 \section{Modelling approaches}
 
-Problem as defined in~\ref{chap:prob-def} can be reduced to two well known problems: transportation and min-cost max flow problem. In both cases knowning $\mathbf{x}$ implies all needed network parameters given $b, h \ge 0$.
+Problem as defined in~\ref{chap:prob-def} can be reduced to two well known problems: transportation and min-cost max flow problem. In both cases knowning $\mathbf{x}$ implies all needed network parameters given $b, h \ge 0$.  This fact can easily be observed from flow conservation on intermediate nodes as in fig~\ref{fig:mcmf-model}. They need to have net flow 0, and with their $x_t$ and $d_t$ determined, only thing left is determining $\mathbf{x_b}$ and $\mathbf{x_h}$, which can be uniquely defined since in optimal placement at same time moment one of them must be zero (since it's suboptimal to hold product and pay backlogging cost when product is in stock).
 
 \subsection{Transportation problem reduction}
 \label{subs:Transportation problem reduction}
 
-First we consider auxiliary variables $x'_{ij}$ which represent amount assigned from supply at time $i$ to demand at time $t$. This entails additional constraint:
-\[x_i = \sum_j{x'_{ij}}\]
+For transportation problem reduction we need cost matrix for satisfying demand at $j$ with supply at time moment $i$. It is given as follows:
 
 \begin{definition}{$\mathbf{C}$}
 matrix defines cost for satisfying demand with specific raw supply material purchase date. It's element $c_{ij}$ equals:
@@ -25,19 +24,9 @@ matrix defines cost for satisfying demand with specific raw supply material purc
 That is using purchases raw materials at $i$ to satisfy demand at time moment $j$ incurs cost $c_{ij}$.
 \end{definition}
 
-Finally our original cost function~\ref{eq:cost-t} then equals to:
-
-\begin{equation}
-    \label{eq:cost-trans-t}
-    c(t) = \sum_i{x'_{it}c_{it}}
-\end{equation}
-
-Under those modeling approaches optimal $x'_{ij}$ yields optimal $\mathbf{x}$
+Maximum supply $\mathbf{x_{\max}}$ is given, so is the demand vector $\mathbf{d}$. Since transportation problem required equal supply and demand nodes, we add dummy demand node sucking out excess supply.
 
 Transportation problem \autocite{or-textbook} is easy reduction since we have cost matrix $\mathbf{C}$ defining ``transportation'' costs associated with each possible assignment option. For successful reduction we only need adding dummy source or destination as described in \autocite{or-textbook}
-
-%% min cost heuristic; fenwick tree\heap and other weird trickery to
-%% compute it in O(n log n) time. It's overkill for this problem though
 
 \subsection{Min cost max flow reduction}
 \label{sub:Min cost max flow reduction}
@@ -45,10 +34,10 @@ Transportation problem \autocite{or-textbook} is easy reduction since we have co
 We can exploit additional problem structure to achieve superior performance and modeling capabilities. In figure~\ref{fig:mcmf-model} we see network architecture.
 
 \begin{figure}[h]
-    \label{fig:mcmf-model}
-    \centering
-    \input{Figures/mcmf-model.tex}
-    \caption{min cost max flow model. Arcs are labeled (capacity, cost)}
+\label{fig:mcmf-model}
+  \centering
+  \input{Figures/mcmf-model.tex}
+  \caption{min cost max flow model. Arcs are labeled (capacity, cost)}
 \end{figure}
 
 \subsection{Feasible solution heuristic}
@@ -80,7 +69,7 @@ For example we'd like to have some extra product in stock by the end of analysis
 
 \subsection{Time Shifted ordering}
 \label{subs:Time Shifted ordering}
-If we order raw materials at $t$ they might arrive at later time moment $t+\Delta_t$. This can easily be modeled via variable substitution. For different $\Delta_t$ depending on the $t$ or multiple suppliers see subsection~\ref{subs:Multiple raw material suppliers}
+If we order raw materials at $t$ they might arrive at later time moment $t+\Delta_t$. This can easily be modeled via variable substitution. For different $\Delta_t$ depending on the $t$ or multiple suppliers see Subsection~\ref{subs:Multiple raw material suppliers}
 
 \subsection{Multiple raw material suppliers}
 \label{subs:Multiple raw material suppliers}
