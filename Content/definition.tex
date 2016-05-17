@@ -48,15 +48,19 @@ Now following is formal problem description for deterministic variant:
 
 \subsection{Variables}
 \label{sub:Variables}
-$\mathbf{x}$ is our decision variable, as described previously.
+$\mathbf{x}$ is our decision variable, as described previously. $\mathbf{x_b}$ and $\mathbf{x_h}$ are backlogging and holding variables respectively backlogging variables respectively.
+
 \subsection{Constraints}
 \label{sub:Constraints}
 \begin{align*}
-    \mathbf{x} &\in \mathbb{N}_0^n \\
     \mathbf{x} &\le \mathbf{x_{\text{max}}}\\
-    \sum{x} &= \sum{d} \\
+    \mathbf{x} &\ge 0 \\
+    \mathbf{x_h} &\ge 0 \\
+    \mathbf{x_b} &\ge 0 \\
     b &\ge 0\\
     h &\ge 0\\
+    \sum_{t=1}^n{x_i} &= \sum_{t=1}^n{d_i}\\
+    \mathbf{x} + \mathbf{x_b} &= \mathbf{d} + \mathbf{x_h} \\
 \end{align*}
 
 \section{Objective function}
@@ -65,19 +69,14 @@ $\mathbf{x}$ is our decision variable, as described previously.
 defines total speeding we pay at time $t$.
     \begin{equation}
         \label{eq:cost-t}
-        c(t) = + s_t x_t + \begin{cases}
-        h \left( \sum_{i=1}^t{x_i} - \sum_{i=1}^t{d_i} \right)  &
-            \sum_{i=1}^t{x_i} \ge \sum_{i=1}^t{d_i}  \\
-        b \left(\sum_{i=1}^t{d_i} - \sum_{i=1}^t{x_i} \right) &
-            \sum_{i=1}^t{x_i} < \sum_{i=1}^t{d_i} \\
-        \end{cases}
+        c(t) = + s_t x_t + b x_{b_t} + h x_{h_t}
     \end{equation}
 \end{definition}
 
-\begin{definition}{$f(\mathbf{x})$}
+\begin{definition}{$f$}
     is objective function for this problem. Our aim is to minimize it.
     \begin{equation}
-        f(\mathbf{x}) =  \sum_t{c(t)}
+        f =  \sum_t{c(t)} = \mathbf{s}^\intercal \mathbf{x} + b \mathbf{x_b} + h \mathbf{x_h}
         \label{eq:cost-f}
     \end{equation}
 \end{definition}
