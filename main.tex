@@ -15,6 +15,10 @@
 \usepackage[backend=bibtex,style=verbose-trad2]{biblatex}
 \usepackage{float}
 \usepackage{graphicx}
+\usepackage{xargs}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,inline]{#2}}
+
 \graphicspath{ {Figures/} }
 
 \usepackage{tikz}

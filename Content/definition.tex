@@ -4,32 +4,21 @@
 \label{chap:prob-def}
 \section{introduction}
 
-This problem is variation of lot sizing problem in stochastic setting. Variation is as follows. Firstly we describe deterministic variant before introducing stochasticity and uncertainty. We have predictions for raw material supply cost $\mathbf{s}$ at future time moment $t$. The \emph{factory} converts all bought raw materials at time $t$ and stores them into a warehouse. Number of discrete time moments is denoted by $n$.
+This problem is a variation of the lot sizing problem in a stochastic setting. Variation is as follows. Firstly we describe deterministic variant before extending the model to stochastic setting. We have predictions for raw material supply cost $\mathbf{s}$ at future time moment $t$. The \emph{factory} converts all bought raw materials at time $t$ and stores them in a warehouse. Number of discrete time moments under consideration is denoted by $n$.
 
-One time moment storage costs fixed amount $h$, that is the holding cost.
+One time moment storage costs fixed amount $h$. The  holding cost is per unit and per time period.
 
-Each $t$ we have certain demand we need satifying, denoted as $\mathbf{d}$. In case there's no products in storage to satisfy demand we pay backlogging cost denoted as $b$ per day, for late orders.
+Each time moment, $t$, we have certain demand we need to satify, denoted as $\mathbf{d}_t$. In case there's no products in storage to satisfy demand we allow backlogging incurring a cost denoted as $b$ per unit per day, for late orders.
 
-Our aim is to optimize our procurement policy by variating $\mathbf{x}$, that is product amount we buy at time moment $t$. However we are constrained by the maximum raw materials we can buy each day by $\mathbf{x_{\text{max}}}$.
+Our aim is to optimize our procurement policy by choosing $\mathbf{x}$, which is amount of the product we buy at time moment $t$. However we are constrained by the maximum amount raw materials , $\mathbf{x^{\text{max}}}$, that we can buy each day.
 
 \section{Formal problem definition}
-\label{sec:Formal problem definition}
+\label{sec:prob-def}
 
 \subsection{Definitions}
 \label{sub:Definitions}
 
-Every input value is known beforehand, and it's assumed for random variables their distributions are known. Following is deterministic problem variant, and in subsequent chapters randomness and uncertainty is embedded into problem. Font convention:
-
-\begin{align*}
-x, y, z && \text{variables and constants} \\
-\mathbf{x, y, z} && \text{vector variables and constants} \\
-X, Y, Z && \text{random variables} \\
-\mathbf{X, Y, Z} && \text{random vectors} \\
-\mathcal{X, Y, Z} && \text{probability distributions} \\
-\mathbf{A, B, C} && \text{matrices, by context differentiated from random vectors}
-\end{align*}
-
-Now following is formal problem description for deterministic variant:
+Following is the deterministic problem variant, and in subsequent chapters randomness and uncertainty is embedded into problem. Notation:
 
 \begin{align*}
     \mathbf{s} &= \begin{bmatrix}
@@ -38,29 +27,33 @@ Now following is formal problem description for deterministic variant:
     \mathbf{x} &= \begin{bmatrix}
         x_1, x_2, \dotsc, x_n
     \end{bmatrix}^\intercal && \text{Procurement quantity vector} \\
-    \mathbf{x_{\max}}  & && \text{Procurement quantity limits vector} \\
+    \mathbf{x^{(\max)}}  & && \text{Procurement quantity limits vector} \\
+    \mathbf{x}^{(b)}  & && \text{Backlogging quantity vector} \\
+    \mathbf{x}^{(h)}  & && \text{Holding quantity vector} \\
     \mathbf{d} &= \begin{bmatrix}
         d_1, d_2, \dotsc, d_n
-    \end{bmatrix}^\intercal && \text{Demand random vector, $Y_t$ is a random variable} \\
+    \end{bmatrix}^\intercal && \text{Demand random vector} \\
     b & && \text{backlogging cost} \\
-    h & && \text{holding cost}
+    h & && \text{holding cost} \\
+    n & && \text{number of time moments}
 \end{align*}
+
+\unsure{Every variable for backlogging and holding vector seems unintuitive or taken. I hope $\mathbf{x}^{(b)}$ is alright since relation to $\mathbf{x}$ is clearly highlighted}
 
 \subsection{Variables}
 \label{sub:Variables}
-$\mathbf{x}$ is our decision variable, as described previously. $\mathbf{x_b}$ and $\mathbf{x_h}$ are backlogging and holding variables respectively backlogging variables respectively.
+$\mathbf{x}$ is our decision variable, as described previously. $\mathbf{x}^{(b)}$ and $\mathbf{x}^{(h)}$ are backlogging and holding variables respectively backlogging variables respectively. For simplicity
+$x^{(h)}_0$, $x^{(b)}_0$,  $x^{(h)}_n$, $x^{(b)}_n$ are equal to $0$ unless otherwise noted. This specific values are explored further in section~\ref{sec:Variants}.
 
 \subsection{Constraints}
 \label{sub:Constraints}
 \begin{align*}
-    \mathbf{x} &\le \mathbf{x_{\text{max}}}\\
-    \mathbf{x} &\ge 0 \\
-    \mathbf{x_h} &\ge 0 \\
-    \mathbf{x_b} &\ge 0 \\
-    b &\ge 0\\
-    h &\ge 0\\
-    \sum_{t=1}^n{x_i} &= \sum_{t=1}^n{d_i}\\
-    \mathbf{x} + \mathbf{x_b} &= \mathbf{d} + \mathbf{x_h} \\
+    x_t &\le x^{(\max)}_t & \forall t\\
+    x_t &\ge 0 & \forall t\\
+    x^{(b)}_t &\ge 0 & \forall t\\
+    x^{(h)}_t &\ge 0 & \forall t\\
+    x_t + x^{(h)}_{t - 1} + x^{(b)}_{t} &= d_t + x^{(h)}_t + h^{(b)}_{t - 1} & \forall t \\
+    x^{(h)}_0 + x^{(b)}_n + \sum_{t=1}^n{x_i} &= \sum_{t=1}^n{d_i} + x^{(b)}_0 + x^{(h)}_n &\\
 \end{align*}
 
 \section{Objective function}
@@ -76,7 +69,7 @@ defines total speeding we pay at time $t$.
 \begin{definition}{$f$}
     is objective function for this problem. Our aim is to minimize it.
     \begin{equation}
-        f =  \sum_t{c(t)} = \mathbf{s}^\intercal \mathbf{x} + b \mathbf{x_b} + h \mathbf{x_h}
+        f =  \sum_t{c(t)} = \sum_t{s_t x_t + b x_{b_t} + h x_{h_t}}
         \label{eq:cost-f}
     \end{equation}
 \end{definition}

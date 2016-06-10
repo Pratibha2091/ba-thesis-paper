@@ -3,14 +3,14 @@
 \chapter{Deterministic approach}
 \label{chap:Deterministic approach}
 
-\section{Modelling approaches}
+\section{Modeling approaches}
 
-Problem as defined in~\ref{chap:prob-def} can be reduced to two well known problems: transportation and min-cost max flow problem. In both cases knowning $\mathbf{x}$ implies all needed network parameters given $b, h \ge 0$.  This fact can easily be observed from flow conservation on intermediate nodes as in fig~\ref{fig:mcmf-model}. They need to have net flow 0, and with their $x_t$ and $d_t$ determined, only thing left is determining $\mathbf{x_b}$ and $\mathbf{x_h}$, which can be uniquely defined since in optimal placement at same time moment one of them must be zero (since it's suboptimal to hold product and pay backlogging cost when product is in stock).
+Problem as defined in section~\ref{sec:prob-def} can be reduced to two well known problems: transportation and min-cost max flow problem. In both cases from knowledge of $\mathbf{x}$ and constraint equations, $\mathbf{x}^{(h)}$ and $\mathbf{x}^{(b)}$ since at each $t$ in optimal solution at least one of $x^{(b)}_t$ and $x^{(h)}_t$ is $0$. This fact can easily be observed from flow conservation on intermediate nodes as in fig~\ref{fig:mcmf-model}. Setting them both to positive values create positive flow cycle with positive cost, which can be canceled yielding same flow with lower cost.
 
-\subsection{Transportation problem reduction}
-\label{subs:Transportation problem reduction}
+\subsection{Reduction to transportation problem}
+\label{subs:trans}
 
-For transportation problem reduction we need cost matrix for satisfying demand at $j$ with supply at time moment $i$. It is given as follows:
+For transportation problem reduction we need cost matrix for satisfying demand at time $j$ with supply at time $i$. It is given as follows:
 
 \begin{definition}{$\mathbf{C}$}
 matrix defines cost for satisfying demand with specific raw supply material purchase date. It's element $c_{ij}$ equals:
@@ -21,12 +21,13 @@ matrix defines cost for satisfying demand with specific raw supply material purc
         h \left( j - i \right) + s_i & j \ge i
     \end{cases}
 \end{equation*}
-That is using purchases raw materials at $i$ to satisfy demand at time moment $j$ incurs cost $c_{ij}$.
+That is using raw materials purchased at $i$ to satisfy demand at time $j$ incurs cost $c_{ij}$.
 \end{definition}
 
-Maximum supply $\mathbf{x_{\max}}$ is given, so is the demand vector $\mathbf{d}$. Since transportation problem required equal supply and demand nodes, we add dummy demand node sucking out excess supply.
+Maximum supply $\mathbf{x^{(\max)}}$ is given, so is the demand vector $\mathbf{d}$. Since transportation problem required equal supply and demand nodes, we add a dummy demand node consuming excess supply.
+\unsure{"That is 0 in the deterministic..." I don't understand what is the meaning of this remark and how can implement your feedback.}
 
-Transportation problem \autocite{or-textbook} is easy reduction since we have cost matrix $\mathbf{C}$ defining ``transportation'' costs associated with each possible assignment option. For successful reduction we only need adding dummy source or destination as described in \autocite{or-textbook}
+Transportation problem~\autocite{or-textbook} is easy reduction since we have cost matrix $\mathbf{C}$ defining ``transportation'' costs associated with each possible assignment option. For successful reduction we only need adding dummy source or destination.
 
 \subsection{Min cost max flow reduction}
 \label{sub:Min cost max flow reduction}
@@ -40,48 +41,30 @@ We can exploit additional problem structure to achieve superior performance and 
   \caption{min cost max flow model. Arcs are labeled (capacity, cost)}
 \end{figure}
 
-\subsection{Feasible solution heuristic}
-\label{subs:Feasible solution heuristic}
-Since this problem has special structure, not found in original transportation problem, this heuristic enables us to construct better initial feasible solution. We can solve relaxed problem where backlogging is forbidden in $\mathcal{O}(n \log{} n)$ using greedy approach:
+\subsection{Runtime complexity}
 
-\begin{verbatim}
-    For each $d_i$ in order from 1 to $n$ do:
-        While $d_i$ not satisfied:
-            Find cheapest $x_k$ positive supply node and
-            satisfy as much as possible
-\end{verbatim}
-
-By the end of this procedure we're going to satisfy all demand in optimal way in case it's possible to to do. Naive implementation results in $\mathcal{O}(n^2)$ runtime, however we can use priority queue, with heap backing implementation for $\mathcal{O}(n\log{}n)$ runtime.
-
-This priority queue is sorted by costs and since all costs raise by constant amount between $d_i$ and $d_{i+1}$ we can keep it updated in $\mathcal{O}(1)$.
+Since both transportation problem and min-cost max flow have polynomial solution algorithms~\autocite{or-textbook}~\autocite{Orlin1997}, this problem does too. Most efficient approach is using network simplex since this problem naturally fits into min-cost max flow model than reduction to transportation problem.
 
 \section{Variants}
 \label{sec:Variants}
 
-Problem as defined previously could seem rather simplistic and not allowing useful extensions users might want, such as current storage amount and similar. In following few subsections most useful extensions are described.
+Problem as defined previously could seem rather simplistic and not allowing useful extensions users might want, such as starting storage amount and similar. In following few subsections most useful extensions are described.
 
 \subsection{Starting storage capacity}
-in case we have already certain number of product in stock we can easily embed that knowledge into model by adding new supplier/node as new decision variable $x_0$. It's maximum, $x_{\max0}$ is equal to starting storage capacity, and $c_{0j} = \left( j - 1 \right) h$
+In case we already have a certain number of product in stock we can easily embed that knowledge into the model by setting $x^{(h)}_0$ equal to starting storage capacity
 
 \subsection{Ending storage requirement}
 \label{subs:Ending storage requirement}
-For example we'd like to have some extra product in stock by the end of analysis, and it's quite easy to accommodate such requirement. Simple add to $d_n$ ending storage requirement, thus obtaining new $d_n$.
+For example we'd like to have some extra product in stock by the end of analysis, and it's quite easy to accommodate such requirement. Simple set $x^{(h)}_n$ to ending requirements. In min-cost max flow model that would be equivalent to another arch from node $n$ to sink with ending storage requirement capacity.
 
-\subsection{Time Shifted ordering}
-\label{subs:Time Shifted ordering}
+\subsection{Allowing future backlogging}
+\label{subs:Allowing future backlogging}
+In the model as described, time stops at period $n$, however, in realistic scenario we're looking at only short time snapshot of ongoing process. Simplest modification would be allowing $x^{(b)}_n$ to be non-negative and letting it be decision variable. It's value is going to be amount of backlogged demand at the analysis end, that is time $n$.
+
+\subsection{Leap time ordering}
+\label{subs:leap-time-ordering}
 If we order raw materials at $t$ they might arrive at later time moment $t+\Delta_t$. This can easily be modeled via variable substitution. For different $\Delta_t$ depending on the $t$ or multiple suppliers see Subsection~\ref{subs:Multiple raw material suppliers}
 
 \subsection{Multiple raw material suppliers}
 \label{subs:Multiple raw material suppliers}
-Adding new raw material suppliers with different costs cannot be done as per original model specification, however reduction to presented problems is straightforward.
-
-\subsection{Allowing future backlogging}
-\label{subs:Allowing future backlogging}
-In model as described, time stops at time moment $n$, however, in realistic scenario we're looking at only short time snapshot of ongoing process. To allow such future purchases to backlog at previous times, we can extend the model with $m$ future moments:
-\begin{align*}
-    d_{n+i} &= 0  && \\
-    x_{\max{n+i}} &= y_i  && \text{allowable backlogging from future supply purchases}\\
-    \mathbf{C}  & && \text{as previously defined, simply extended} \\
-    \mathbf{s} &&& \text{extended with future costs}
-\end{align*}
-for $i$ in $1, 2, \dotsc, m$
+Adding new raw material suppliers with different costs cannot be done as per original model specification. Talking in terms or min-cost max flow approach adding new raw material suppliers would be equal to adding additional arcs from source to nodes 1, 2, \ldots, $n$. with respective maximum supply capacity and costs.
