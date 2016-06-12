@@ -2,3 +2,40 @@
 
 \chapter{Brief introduction to time series analysis}
 \label{chap:Brief introduction to time series analysis}
+
+\section{Definitions}
+\label{sec:Definitions}
+
+Time series is a collection of data points collected at constant time intervals. These are analyzed to determine the long term trend so as to forecast the future or perform some other form of analysis.
+
+It is time dependent. Along with an increasing or decreasing trend, most TS have some form of seasonality trends, i.e. variations specific to a particular time frame. For example, if you see the sales of a woolen jacket over time, you will invariably find higher sales in winter seasons.
+
+\section{Stationary process}
+\label{sec:Stationary process}
+
+Stationary process is stochastic process whose joint probabilities don't change when shifted in time. A stationary process therefore has the property that the mean, variance and autocorrelation structure do not change over time.
+
+Many time series analysis methods depend on stationarity property.
+
+\section{AR model}
+\label{sec:AR model}
+
+Autoregressive (AR) model is a representation of a type of random process. The autoregressive model specifies that the output variable depends linearly on its own previous values and on a stochastic term (an imperfectly predictable term).
+
+Contrary to the MA model defined in Section~\ref{sec:MA model}, the AR model is not always stationary as it may contain a unit root.
+
+AR($p$) model is $p$-th order autoregressive model and it is defined as:
+\begin{equation*}
+  X_t = c + \sum_{i=1}^p{\varphi_i X_{t_1}} + \epsilon_t
+\end{equation*}
+
+$c$ and $\varphi$ are model parameters, $X_t$ is time series value at time step $t$, and $\epsilon_t$ is white noise with 0 mean and constant variance $\sigma_{\epsilon}^2$.
+
+\section{MA model}
+\label{sec:MA model}
+
+\section{ARMA model}
+\label{sec:ARMA model}
+
+\section{ARIMA model}
+\label{sec:ARIMA model}
