@@ -10,7 +10,7 @@ One time moment storage costs fixed amount $h$. The  holding cost is per unit an
 
 Each time moment, $t$, we have certain demand we need to satify, denoted as $\mathbf{d}_t$. In case there's no products in storage to satisfy demand we allow backlogging incurring a cost denoted as $b$ per unit per day, for late orders.
 
-Our aim is to optimize our procurement policy by choosing $\mathbf{x}$, which is amount of the product we buy at time moment $t$. However we are constrained by the maximum amount raw materials , $\mathbf{x^{\text{max}}}$, that we can buy each day.
+Our aim is to optimize our procurement policy by choosing $\mathbf{x}$, which is amount of the product we buy at time moment $t$. However we are constrained by the maximum amount raw materials , $\mathbf{x^{\text{(max)}}}$, that we can buy each day.
 
 \section{Formal problem definition}
 \label{sec:prob-def}
@@ -43,7 +43,7 @@ Following is the deterministic problem variant, and in subsequent chapters rando
 \subsection{Variables}
 \label{sub:Variables}
 $\mathbf{x}$ is our decision variable, as described previously. $\mathbf{x}^{(b)}$ and $\mathbf{x}^{(h)}$ are backlogging and holding variables respectively backlogging variables respectively. For simplicity
-$x^{(h)}_0$, $x^{(b)}_0$,  $x^{(h)}_n$, $x^{(b)}_n$ are equal to $0$ unless otherwise noted. This specific values are explored further in section~\ref{sec:Variants}.
+$x^{(h)}_0$, $x^{(b)}_0$,  $x^{(h)}_n$, $x^{(b)}_n$ are equal to $0$ unless otherwise noted. This specific values are explored further in Section~\ref{sec:Variants}.
 
 \subsection{Constraints}
 \label{sub:Constraints}
@@ -62,14 +62,14 @@ $x^{(h)}_0$, $x^{(b)}_0$,  $x^{(h)}_n$, $x^{(b)}_n$ are equal to $0$ unless othe
 defines total speeding we pay at time $t$.
     \begin{equation}
         \label{eq:cost-t}
-        c(t) = + s_t x_t + b x_{b_t} + h x_{h_t}
+        c(t) = s_t x_t + b x^{(b)}_t + h x^{(h)}_t
     \end{equation}
 \end{definition}
 
 \begin{definition}{$f$}
     is objective function for this problem. Our aim is to minimize it.
     \begin{equation}
-        f =  \sum_t{c(t)} = \sum_t{s_t x_t + b x_{b_t} + h x_{h_t}}
+        f =  \sum_t{c(t)} = \sum_t{ s_t x_t + b x^{(b)}_t + h x^{(h)}_t}
         \label{eq:cost-f}
     \end{equation}
 \end{definition}
