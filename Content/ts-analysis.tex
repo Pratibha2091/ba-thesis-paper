@@ -20,11 +20,11 @@ Many time series analysis methods depend on stationarity property.
 \section{AR model}
 \label{sec:AR model}
 
-Autoregressive (AR) model is a representation of a type of random process. The autoregressive model specifies that the output variable depends linearly on its own previous values and on a stochastic term (an imperfectly predictable term).
+Autoregressive (AR)~\autocite{tsa} model is a representation of a type of random process. The autoregressive model specifies that the output variable depends linearly on its own previous values and on a stochastic term (an imperfectly predictable term).
 
 Contrary to the MA model defined in Section~\ref{sec:MA model}, the AR model is not always stationary as it may contain a unit root.
 
-AR($p$) model is $p$-th order autoregressive model and it is defined as:
+AR~($p$) model is $p$-th order autoregressive model and it is defined as:
 \begin{equation*}
   X_t = c + \sum_{i=1}^p{\varphi_i X_{t_1}} + \epsilon_t
 \end{equation*}
@@ -33,9 +33,29 @@ $c$ and $\varphi$ are model parameters, $X_t$ is time series value at time step 
 
 \section{MA model}
 \label{sec:MA model}
+The moving-average model~\autocite{tsa} specifies that the output variable depends linearly on its own previous stochastic term and on a stochastic term (an imperfectly predictable term).
+
+Contrary to the AR model in Section~\ref{sec:AR model}, the MA model is always stationary.
+
+MA~($q$) model is $q$-th order moving-average model defined as:
+
+\begin{equation*}
+  X_t = \mu + \sum_{i=1}^q{\varphi_i \epsilon_{t-i}}
+\end{equation*}
+
+where $\mu$ is time series mean and other notation is consistent with previous chapter.
 
 \section{ARMA model}
 \label{sec:ARMA model}
+
+Autoregressive–moving-average (ARMA)~\autocite{tsa} models provide a parsimonious description of a (weakly) stationary stochastic process in terms of two polynomials, one for the auto-regression and the second for the moving average
+
+Given a time series of data $X_t$, the ARMA model is a tool for understanding and, perhaps, predicting future values in this series. The model consists of two parts, an autoregressive (AR) part and a moving average (MA) part. The model is usually then referred to as the ARMA~($p$,$q$) model where $p$ is the order of the autoregressive part and $q$ is the order of the moving average part:
+
+\begin{equation*}
+  X_t = c + \sum_{i=1}^p{\varphi_i X_{t_1}} + \epsilon_t + \sum_{i=1}^q{\varphi_i \epsilon_{t-i}}
+\end{equation*}
+
 
 \section{ARIMA model}
 \label{sec:ARIMA model}
