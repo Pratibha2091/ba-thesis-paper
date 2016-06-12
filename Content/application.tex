@@ -8,17 +8,21 @@ For purpose of demonstrating for demand I'm using data from US electricity consu
 \begin{figure}[]
   \centering
   \includegraphics[width=0.8\linewidth]{supply}
-  \caption{Yearly coal prices}
+  \caption{Yearly coal prices. Green are prediction with ARIMA(0,1,1) model}
   \label{fig:supply}
 \end{figure}
 
 For supply unit cost, for illustrative purposes I'm using historic American coal price~\autocite{us-coal}. It is yearly based from 1950 till 2005. The data is plot is in figure~\ref{fig:demand}.
 
-For purposes of this analysis, data from 2000 till 2005 is going to be forecasted as described in previous chapter, and then compared to ideal, perfect knowledge scenario. Analysis will be conducted for various values of $\mathbf{x_{\max}}$, $b$ and $d$ model parameters.
+For purposes of this analysis, data from 2000 till 2005 is going to be unknown and serve as demonstration of programming support helper functions. Whole programming support can be found at URL~\autocite{code}. Forecasting is done by fitting ARIMA model, where model selection is done with lowest Akaike information criterion~\autocite{Akaike1974}.
 
 \begin{figure}[]
   \centering
   \includegraphics[width=0.8\linewidth]{demand}
-  \caption{Yearly electricity demand}
+  \caption{Yearly electricity demand. Green are predictions with ARIMA(1,2,0) model}
   \label{fig:demand}
 \end{figure}
+
+As we can see from figures~\ref{fig:demand} and~\ref{fig:supply}, automatic model fitting yields subpar performance compared to true data in the future in both supply cost and in demand quantity. In supply it predicts decline in price, whilst the price is increasing, and in demand quantity it underestimates increase in demand. Consequently model would recommend buying less supplies.
+
+Which is partially to be expected given model has only time series data as input, without all other world parameters influencing demand quantity and supply cost. For such cases expert opinions is of utmost importance and decision maker should decide which forecasted quantities make sense and which ones are underestimated/overestimated. Automatic approch works only for the most simplest cases, and knowledge of dedicated system or libraries would enable decision maker greater agility in implementing models, finding solutions and its refinement.
