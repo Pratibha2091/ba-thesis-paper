@@ -11,21 +11,10 @@ The newsvendor model~\autocite{Arrow1974} is a mathematical model resembling new
 
 The stock in newsvendor model is only for one day, and unlike problem presented in chapter~\ref{chap:prob-def} product is not perishable, but its cost increases in each following time step.
 
-\section{Economic order quantity}
-\label{sec:EOQ}
-
-Economic order quantity (EOQ) is the order quantity that minimizes the total holding costs and ordering costs. It is one of the oldest classical production scheduling models.~\autocite{Harris1990}
-
-EOQ applies only when demand for a product is constant over the year and each new order is delivered in full when inventory reaches zero. There is a fixed cost for each order placed, regardless of the number of units ordered. There is also a cost for each unit held in storage, commonly known as holding cost.
-
-We want to determine the optimal number of units to order so that we minimize the total cost associated with the purchase, delivery and storage of the product.
-
-
 \section{Dynamic lot-size model}
 \label{sec:Dynamic lot-size model}
 
-Dynamic lot-size model~\autocite{Wagner2004} is generalization of the EPQ mode
-which takes into account that demand for the product varies over time. For the planning horizon of $n$ time periods we have following data:
+Dynamic lot-size model~\autocite{Wagner2004} is generalization of the Economic Order quantity model~\autocite{Harris1990} which takes into account that demand for the product varies over time. For the planning horizon of $n$ time periods we have following data:
 
 \begin{align*}
   d_t && \text{Demand at time period $t$} \\
