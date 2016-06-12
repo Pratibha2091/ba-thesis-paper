@@ -8,7 +8,7 @@
 
 Time series is a collection of data points collected at constant time intervals. These are analyzed to determine the long term trend so as to forecast the future or perform some other form of analysis.
 
-It is time dependent. Along with an increasing or decreasing trend, most TS have some form of seasonality trends, i.e. variations specific to a particular time frame. For example, if you see the sales of a woolen jacket over time, you will invariably find higher sales in winter seasons.
+It is time dependent. Along with an increasing or decreasing trend, most time series have some form of seasonality trends, i.e. variations specific to a particular time frame. For example, if you see the sales of a woolen jacket over time, you will invariably find higher sales in winter seasons.
 
 \section{Stationary process}
 \label{sec:Stationary process}
@@ -59,3 +59,10 @@ Given a time series of data $X_t$, the ARMA model is a tool for understanding an
 
 \section{ARIMA model}
 \label{sec:ARIMA model}
+
+Autoregressive integrated moving average (ARIMA) model~\autocite{tsa} is a generalization of an autoregressive moving average (ARMA) model. They are applied in some cases where data show evidence of non-stationarity, where an initial differencing step (corresponding to the “integrated” part of the model) can be applied to reduce the non-stationarity.
+
+Previously defined models work only on stationary time series. To get time
+series to stationary we need to transform it. Simplest such transformation is
+differentiating adjacent elements into obtaining new time series. ARIMA ($p$,
+$d$, $q$) model can be viewed as ARMA ($p$,$q$) applied to $d$-times differentiated original series.
