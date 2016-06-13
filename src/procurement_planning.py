@@ -66,6 +66,19 @@ def autoForecast(ts, time_steps):
 
 
 def optimal_procurement_with_history(supply_cost, x_max, demand_quantity, holding_cost, backlogging_cost, **kwargs):
+    """Calculates optimal procurement planning.
+
+    This function automatically forecast future supply_cost and demand_quantity quantity by given data. Number of entries in x_max determine how many time steps into future to forecast.
+
+    Arguments:
+    supply_cost -- Supply cost history at each time period
+    x_max -- Maximum supply quantity at each future.
+    demand_quantity -- Demand quantity history at each time period
+    holding_cost -- Holding cost.
+    backlogging_cost -- Backlogging cost.
+    xh_0 -- Initial inventory.
+    x_hn -- Final inventory target.
+    """
 
     n = len(np.array(x_max))
     forecast, _ = autoForecast(supply_cost, n)
