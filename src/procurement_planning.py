@@ -52,6 +52,14 @@ def find_ARIMA_pdq(ts):
 
 
 def autoForecast(ts, time_steps):
+    """Atomatically forecast time series.
+
+    It fits ARIMA(p,d,q) model to the time series. Model selection is using smallest AIC.
+
+    Arguments:
+    ts -- time series to be forecasted
+    time_steps -- number of time steps to be forecasted
+    """
     ts = np.array(ts, dtype=np.float32)
     model, (p, d, q) = find_ARIMA_pdq(ts)
     return model.forecast(time_steps), (p, d, q)
