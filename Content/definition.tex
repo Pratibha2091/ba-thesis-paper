@@ -31,7 +31,7 @@ Dynamic lot-size model~\autocite{Wagner2004} is generalization of the Economic O
   d_t && \text{Demand at time period $t$} \\
   h_t && \text{Holding cost at time period $t$} \\
   K_t && \text{Setup cost at time period $t$} \\
-  I_0 && \text{Initial inventory} \\
+  x^{(h)}_0 && \text{Initial inventory} \\
 \end{align*}
 
 and decision variable $\mathbf{x}$:
@@ -39,10 +39,18 @@ and decision variable $\mathbf{x}$:
   x_t && \text{Quantity purchased at time period $t$}\\
 \end{align*}
 
+plus auxiliary variable $y_t$:
+\begin{equation*}
+    y_t = \begin{cases}
+        1 & x_t > 0\\
+        0 & x_t = 0 \\
+    \end{cases}
+\end{equation*}
+
 For simplicity we define inventory at time period $t$ as:
 
 \begin{align*}
-  I_t &= I_0 + \sum_{t=0}^k{x_t} - \sum_{t=0}^k{d_t}\\
+  I_t &= x^{(h)}_0 + \sum_{t=0}^k{x_t} - \sum_{t=0}^k{d_t}\\
 \end{align*}
 
 And we want to choose optimal $x_t$, under following constraints:
@@ -54,10 +62,9 @@ And we want to choose optimal $x_t$, under following constraints:
 
 And we want to minimize following objective function:
 \begin{equation*}
-  f = \sum_t{h_t I_t + H(x_t)K_t}
+  f = \sum_t{h_t I_t + y_t K_t}
 \end{equation*}
 
-where $H$ is Heaviside step function.
 
 \subsubsection{Dynamic lot size model in stochastic setting}
 \label{sub:Dynamic lot size model in stochastic setting}
