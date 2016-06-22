@@ -22,6 +22,20 @@ The newsvendor model~\autocite{Arrow1974} is a mathematical model resembling new
 
 The stock in newsvendor model is only for one day, and unlike problem presented in chapter~\ref{chap:prob-def} product is not perishable, but its cost increases in each following time step.
 
+Formally defined:
+
+\begin{align*}
+    D && \text{Random variable of product demand} \\
+    s && \text{supply cost per unit} \\
+    p && \text{selling price per unit} \\
+\end{align*}
+
+Variable is amount of perishable product to buy $x$.
+And objective function to maximize is:
+\begin{equation*}
+    f = p\min(x, D) - sx
+\end{equation*}
+
 \subsection{Dynamic lot sizing model}
 \label{sec:Dynamic lot sizing model}
 
