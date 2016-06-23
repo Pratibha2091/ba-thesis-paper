@@ -19,6 +19,7 @@ def optimal_procurement(supply_cost, x_max, demand_quantity, holding_cost, backl
 
     G = nx.DiGraph()
     n = len(supply_cost)
+    total_demand = np.sum(demand_quantity)
     for t in range(n):
         G.add_edge("source", t, {'capacity': x_max[t], 'weight': supply_cost[t]})
         G.add_edge(t, "sink", {'capacity': demand_quantity[t], 'weight': 0})
@@ -30,10 +31,15 @@ def optimal_procurement(supply_cost, x_max, demand_quantity, holding_cost, backl
 
     G.add_edge(n, "sink", {'capacity': xh_n, 'weight': 0})
 
-    mincost_flow = nx.max_flow_min_cost(G, "source", "sink")
-    cost = nx.cost_of_flow(G, mincost_flow)
+    nx.set_node_attributes(G, "demand", {"source": -total_demand, "sink": total_demand})
+
+    cost, mincost_flow = nx.capacity_scaling(G)
     return cost, np.array([mincost_flow['source'][t] for t in range(n)])
 
+ss = np.array([ 16.97,  17.27,  16.84,  18.27,  19.43]),
+dd = np.array([3465466011, 3493734498, 3547479479, 3660968521, 3669918842])
+
+optimal_procurement(ss, [1e13]*5, dd, 10, 1)
 
 def find_ARIMA_pdq(ts):
     aic = 1e9
