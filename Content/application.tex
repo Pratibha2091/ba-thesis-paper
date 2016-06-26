@@ -3,7 +3,7 @@
 \chapter{Application on historical dataset}
 \label{chap:Application on historical dataset}
 
-For purpose of demonstrating for demand I'm using data from US electricity consumption~\autocite{us-elec} It offers per month aggregation of electrical energy used per state, and for purpose of illustration I'm using whole US aggregated. Data ranges from 1990 till February 2016. I'm using restricted version from 1990 till 2005 aggregated on yearly basis. Full data plot is in figure~\ref{fig:supply}
+For purpose of demonstrating for demand I'm using data from US electricity consumption~\cite{us-elec} It offers per month aggregation of electrical energy used per state, and for purpose of illustration I'm using whole US aggregated. Data ranges from 1990 till February 2016. I'm using restricted version from 1990 till 2005 aggregated on yearly basis. Full data plot is in figure~\ref{fig:supply}
 
 \begin{figure}[]
   \centering
@@ -12,7 +12,7 @@ For purpose of demonstrating for demand I'm using data from US electricity consu
   \label{fig:supply}
 \end{figure}
 
-For supply unit cost, for illustrative purposes I'm using historic American coal price~\autocite{us-coal}. It is yearly based from 1950 till 2005. The data is plot is in figure~\ref{fig:demand}.
+For supply unit cost, for illustrative purposes I'm using historic American coal price~\cite{us-coal}. It is yearly based from 1950 till 2005. The data is plot is in figure~\ref{fig:demand}.
 
 First I'm going to compare optimal solution with perfect information to simple solution. Simple solution consists of buying current demand quantity each day from current day supply price. Planning is done on time horizon from 2000 till 2005. Later in this chapter ARIMA model is going to be fit to the dataset where same time horizon is going to be predicted and analysis be made. In table~\ref{my-label} are relative error of optimal solution versus simple approach for various holding and backlogging cost per unit per time step. On this particular dataset due to its simplistic nature more complicated optimal approach doesn't necessary bring much additional benefit. There's no silver bullet, but on more involved dataset profit gains are significant.
 
@@ -33,7 +33,7 @@ $h$ & $b$ & relative error compared to optimal \\ \midrule
 \end{table}
 
 
-For purposes of this analysis, data from 2000 till 2005 is going to be unknown and serve as demonstration of programming support helper functions. Whole programming support can be found at URL~\autocite{code}. Forecasting is done by fitting ARIMA model, where model selection is done with lowest Akaike information criterion~\autocite{Akaike1974}.
+For purposes of this analysis, data from 2000 till 2005 is going to be unknown and serve as demonstration of programming support helper functions. Whole programming support can be found at URL~\cite{code}. Forecasting is done by fitting ARIMA model, where model selection is done with lowest Akaike information criterion~\cite{Akaike1974}.
 
 \begin{figure}[]
   \centering
@@ -46,4 +46,4 @@ As we can see from figures~\ref{fig:demand} and~\ref{fig:supply}, automatic data
 
 Which is partially to be expected given model has only time series data as input, without all other world parameters influencing demand quantity and supply cost. For such cases expert opinions is of utmost importance and decision maker should decide which forecasted quantities make sense and which ones are underestimated/overestimated. Automatic approach works only for the most simplest cases, and knowledge of dedicated system or libraries would enable decision maker greater agility in implementing models, finding solutions and its refinement.
 
-Despite mentioned shortcomings in this particular dataset, automatic method with backlogging cost $b=100$ and holding cost $h=1$, achieves 0.02\% accuracy for first step procurement quantity compared to ideal solution. Detailed jupyter notebook is located at URL~\autocite{jup}.
+Despite mentioned shortcomings in this particular dataset, automatic method with backlogging cost $b=100$ and holding cost $h=1$, achieves 0.02\% accuracy for first step procurement quantity compared to ideal solution. Detailed jupyter notebook is located at URL~\cite{jup}.

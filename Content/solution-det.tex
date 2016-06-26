@@ -25,9 +25,8 @@ That is using raw materials purchased at $i$ to satisfy demand at time $j$ incur
 \end{definition}
 
 Maximum supply $\mathbf{x^{(\max)}}$ is given, so is the demand vector $\mathbf{d}$. Since transportation problem required equal supply and demand nodes, we add a dummy demand node consuming excess supply.
-\unsure{"That is 0 in the deterministic..." I don't understand what is the meaning of this remark and how can implement your feedback.}
 
-Transportation problem~\autocite{or-textbook} is easy reduction since we have cost matrix $\mathbf{C}$ defining ``transportation'' costs associated with each possible assignment option. For successful reduction we only need adding dummy source or destination.
+Transportation problem~\cite{or-textbook} is easy reduction since we have cost matrix $\mathbf{C}$ defining ``transportation'' costs associated with each possible assignment option. For successful reduction we only need adding dummy source or destination.
 
 \subsection{Min cost max flow reduction}
 \label{sub:Min cost max flow reduction}
@@ -43,7 +42,7 @@ We can exploit additional problem structure to achieve superior performance and 
 
 \subsection{Runtime complexity}
 
-Since both transportation problem and min-cost max flow have polynomial solution algorithms~\autocite{or-textbook}~\autocite{Orlin1997}, this problem does too. Most efficient approach is using network simplex since this problem naturally fits into min-cost max flow model than reduction to transportation problem.
+Since both transportation problem and min-cost max flow have polynomial solution algorithms~\cite{or-textbook}~\cite{Orlin1997}, this problem does too. Most efficient approach is using network simplex since this problem naturally fits into min-cost max flow model than reduction to transportation problem.
 
 \section{Variants}
 \label{sec:Variants}

@@ -1,44 +1,31 @@
-% book example for classicthesis.sty
-\documentclass[
-  oneside,
-  12pt, a4paper,
-  footinclude=true,
-  headinclude=true,
-  cleardoublepage=empty
-]{scrbook}
+\documentclass[times, utf8, zavrsni]{fer}
+\usepackage{booktabs}
 
-\usepackage[linedheaders,parts,pdfspacing]{classicthesis}
 \usepackage{mathtools, amsmath,amsfonts,amssymb, amsthm}
 \usepackage{acronym}
 \usepackage{geometry}
 \usepackage{hyperref}
-\usepackage[backend=bibtex,style=verbose-trad2]{biblatex}
 \usepackage{float}
 \usepackage{graphicx}
-\usepackage{xargs}
-\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
-\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,inline]{#2}}
-\usepackage[utf8]{inputenc}
 \graphicspath{ {Figures/} }
-\usepackage{booktabs}
+
 
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows}
-\bibliography{refs}
+\begin{document}
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
 
-\theoremstyle{remark}
-\newtheorem*{remark}{Remark}
-
-
+\thesisnumber{4756}
 \title{A decision support system for forecasting and optimal procurement}
-\author{Neven Miculnić\\Supervisor: prof. João Pedro Pedroso}
-
-\begin{document}
+% \author{Neven Miculnić\\Supervisor: prof. João Pedro Pedroso}
+\author{Neven Miculinić}
 
 \maketitle
+
+\zahvala{}
+\tableofcontents
 
 \include{FrontBackMatter/abstract}
 \include{Content/definition}
@@ -47,5 +34,8 @@
 \include{Content/application}
 \include{Content/conc}
 
-\printbibliography
+\bibliography{refs}
+\bibliographystyle{fer}
+
+
 \end{document}
