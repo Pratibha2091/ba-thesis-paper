@@ -114,9 +114,9 @@
 \linespread{1.3}
 
 % Promjena naziva poglavlja ``Bibliografija'' -> ``Literatura''
-\addto\captionscroatian{%
-	\def\bibname{Bibliography}
-}
+% \addto\captionscroatian{%
+	% \def\bibname{Bibliography}
+% }
 
 % Podešavanje oznaka kod listi (1. razina je crtica, 2. puni krug)
 \renewcommand{\labelitemi}{\textendash}
@@ -341,7 +341,7 @@
 \begin{center}
   {\bf \@title}
 \end{center}
-\hspace*{\fill} {\bf Table of contents} \hspace*{\fill} \par
+\hspace*{\fill} {\bf Sa\v{z}etak} \hspace*{\fill} \par
 \vspace*{25pt}
 }
 {
