@@ -1,0 +1,237 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\usetheme{AnnArbor}
+
+\usepackage{graphicx}
+\graphicspath{ {Figures/} }
+
+%Information to be included in the title page:
+\title{A decision support system for forecasting and optimal procurement}
+\author{Neven Miculinić}
+\date{July 2016}
+
+\begin{document}
+
+\frame{\titlepage}
+
+% Present problem
+% Present related work --> news vendor probelm
+% Present related work --> news vendor dynamic lot sizing model
+% Present solution to deterministic -> Naive approach
+% Present solution to deterministic -> Transportation problem
+% Present solution to deterministic -> Min cost max flow
+% Present problem extensions
+% Briefly talk about Time series analysis
+% Briefly mentioned
+
+\begin{frame}
+\frametitle{Introduction}
+\begin{itemize}
+\item Decision maker has a factory which produces certain product with variable demand.
+\item To produce the product it uses raw materials from supplier with variable cost.
+\item There are cost penalties for storing raw material and for delaying demand satisfaction
+\end{itemize}
+
+% If there's extra raw materials it's stored and cost is payed per unit per day.
+
+% If demand isn't satisfied backlogging cost is payed per unit per day until it's satisfied.
+
+% His goal is minimizing total cost by deciding how much raw materials to purchase each time step.
+
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Newsvendor problem}
+    \begin{itemize}
+        \item Inspired by newsvedor dilema.
+        \item Product is perishable
+    \end{itemize}
+
+    \begin{block}{Formal definition}
+
+        \begin{align*}
+            D && \text{Random variable of product demand} \\
+            s && \text{supply cost per unit} \\
+            p && \text{selling price per unit} \\
+        \end{align*}
+
+        Variable is amount of perishable product to buy $x$.\\
+        objective function:
+        \begin{equation*}
+            f = p\min(x, D) - sx
+        \end{equation*}
+
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Dynamic lot sizing model}
+    \begin{itemize}
+        \item Similar to problem described in introduction
+        \item Unlike original there's setup cost
+    \end{itemize}
+
+    \begin{block}{Formal definition}
+        \begin{align*}
+          d_t && \text{Demand at time period $t$} \\
+          h_t && \text{Holding cost at time period $t$} \\
+          K_t && \text{Setup cost at time period $t$} \\
+          x^{(h)}_0 && \text{Initial inventory} \\
+        \end{align*}
+
+        and decision variable $\mathbf{x}$:
+        \begin{align*}
+                  x_t && \text{Quantity purchased at time period $t$}\\
+        \end{align*}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Dynamic lot sizing model}
+    \begin{block}{}
+        plus auxiliary variable $y_t$:
+        \begin{equation*}
+            y_t = \begin{cases}
+                1 & x_t > 0\\
+                0 & x_t = 0 \\
+            \end{cases}
+        \end{equation*}
+
+        For simplicity we define inventory at time period $t$ as:
+
+        \begin{align*}
+          I_t &= x^{(h)}_0 + \sum_{t=0}^k{x_t} - \sum_{t=0}^k{d_t}\\
+        \end{align*}
+
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Dynamic lot sizing model}
+    \begin{block}{}
+        And we want to choose optimal $x_t$, under following constraints:
+
+        \begin{align*}
+          x_t &\ge 0 \; \forall t\\
+          I_t &\ge 0 \; \forall t\\
+        \end{align*}
+
+        And we want to minimize following objective function:
+        \begin{equation*}
+          f = \sum_t{h_t I_t + y_t K_t}
+        \end{equation*}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Formal problem definition}
+    \begin{align*}
+        \mathbf{s} &= \begin{bmatrix}
+            s_1, s_2, \dotsc, s_n
+        \end{bmatrix}^\intercal && \text{Supply cost vector} \\
+        \mathbf{x} &= \begin{bmatrix}
+            x_1, x_2, \dotsc, x_n
+        \end{bmatrix}^\intercal && \text{Procurement quantity vector} \\
+        \mathbf{x^{(\max)}}  & && \text{Procurement quantity limits vector} \\
+        \mathbf{x}^{(b)}  & && \text{Backlogging quantity vector} \\
+        \mathbf{x}^{(h)}  & && \text{Holding quantity vector} \\
+        \mathbf{d} &= \begin{bmatrix}
+            d_1, d_2, \dotsc, d_n
+        \end{bmatrix}^\intercal && \text{Demand random vector} \\
+        b & && \text{backlogging cost} \\
+        h & && \text{holding cost} \\
+        n & && \text{number of time moments}
+    \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Constraints}
+    \begin{align*}
+        x_t &\le x^{(\max)}_t & \forall t\\
+        x_t &\ge 0 & \forall t\\
+        x^{(b)}_t &\ge 0 & \forall t\\
+        x^{(h)}_t &\ge 0 & \forall t\\
+        x_t + x^{(h)}_{t - 1} + x^{(b)}_{t} &= d_t + x^{(h)}_t + h^{(b)}_{t - 1} & \forall t \\
+        x^{(h)}_0 + x^{(b)}_n + \sum_{t=1}^n{x_i} &= \sum_{t=1}^n{d_i} + x^{(b)}_0 + x^{(h)}_n &\\
+    \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Objective function}
+    \begin{itemize}
+        \item \[c(t) = s_t x_t + b x^{(b)}_t + h x^{(h)}_t\]
+        \item \[f =  \sum_t{c(t)} = \sum_t{ s_t x_t + b x^{(b)}_t + h x^{(h)}_t}\]
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Solution}
+    \begin{itemize}
+        \item Linear programming/Mixed integer programming
+        \item Transportation problem
+        \item \alert{Min cost max flow}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[shrink=0.5]
+    \frametitle{Min Cost max flow solution}
+    \begin{figure}[h]
+      \centering
+      \input{Figures/mcmf-model.tex}
+      \caption{min cost max flow model. Arcs are labeled (capacity, cost)}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Problem variants}
+    \begin{itemize}
+        \item Starting storage capacity
+        \item Ending storage requirement
+        \item Allowing future backlogging
+        \item Leap time ordering
+        \item Multiple raw material suppliers
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Forecasting future data points}
+    \begin{itemize}
+        \item AR model
+        \item MA model
+        \item ARIMA model
+        \item Model fitted using Akaike information criterion (AIC)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Implementation and application}
+    \begin{itemize}
+        \item python API
+        \item experimented on real dataset
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Americal coal prices}
+    \begin{figure}[]
+      \centering
+      \includegraphics[width=0.8\linewidth]{supply}
+          \caption{Yearly coal prices. Green are prediction with ARIMA(0,1,1) model}
+    \end{figure}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{US yearly electricity demand}
+    \begin{figure}[]
+      \centering
+      \includegraphics[width=0.8\linewidth]{demand}
+      \caption{Yearly electricity demand. Green are predictions with ARIMA(1,2,0) model}
+    \end{figure}
+\end{frame}
+\end{document}
