@@ -48,8 +48,8 @@
 \begin{frame}
     \frametitle{Newsvendor problem}
     \begin{itemize}
-        \item Inspired by newsvedor dilema.
-        \item Product is perishable
+        \item Inspired by news vendor dilemma.
+        \item Product is perishable (e.g. newspaper)
     \end{itemize}
 
     \begin{block}{Formal definition}
@@ -97,7 +97,7 @@
         plus auxiliary variable $y_t$:
         \begin{equation*}
             y_t = \begin{cases}
-                1 & x_t > 0\\
+                1 & x_t > 0 \\
                 0 & x_t = 0 \\
             \end{cases}
         \end{equation*}
@@ -133,7 +133,7 @@
     \begin{align*}
         \mathbf{s} &= \begin{bmatrix}
             s_1, s_2, \dotsc, s_n
-        \end{bmatrix}^\intercal && \text{Supply cost vector} \\
+        \end{bmatrix}^\intercal && \text{Supply cost random vector} \\
         \mathbf{x} &= \begin{bmatrix}
             x_1, x_2, \dotsc, x_n
         \end{bmatrix}^\intercal && \text{Procurement quantity vector} \\
@@ -145,7 +145,7 @@
         \end{bmatrix}^\intercal && \text{Demand random vector} \\
         b & && \text{backlogging cost} \\
         h & && \text{holding cost} \\
-        n & && \text{number of time moments}
+        n & && \text{number of time steps}
     \end{align*}
 \end{frame}
 
@@ -202,17 +202,20 @@
     \frametitle{Forecasting future data points}
     \begin{itemize}
         \item AR model
-        \item MA model
-        \item ARIMA model
-        \item Model fitted using Akaike information criterion (AIC)
-    \end{itemize}
-\end{frame}
+        \begin{equation*}
+          X_t = c + \sum_{i=1}^p{\varphi_i X_{t_1}} + \epsilon_t
+        \end{equation*}
 
-\begin{frame}
-    \frametitle{Implementation and application}
-    \begin{itemize}
-        \item python API
-        \item experimented on real dataset
+        \item MA model
+        \begin{equation*}
+            X_t = \mu + \sum_{i=1}^q{\varphi_i \epsilon_{t-i}} + \epsilon_t
+        \end{equation*}
+
+        \item ARIMA model
+        \item Automated model fitting using Akaike information criterion (AIC)
+        \begin{equation*}
+            \text{AIC} = 2k - 2 \ln L
+        \end{equation*}
     \end{itemize}
 \end{frame}
 
@@ -225,7 +228,6 @@
     \end{figure}
 \end{frame}
 
-
 \begin{frame}
     \frametitle{US yearly electricity demand}
     \begin{figure}[]
@@ -233,5 +235,18 @@
       \includegraphics[width=0.8\linewidth]{demand}
       \caption{Yearly electricity demand. Green are predictions with ARIMA(1,2,0) model}
     \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Implementation and application}
+    \begin{itemize}
+        \item python API
+        \item experimented on real dataset
+        \item Bottom line: benefits data dependant
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \Huge Thank you for your attention.
 \end{frame}
 \end{document}
